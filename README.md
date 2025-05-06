@@ -115,12 +115,18 @@ Now that your file is set up, you have two ways to run FeedCord
 
 ### Docker (Recommended)
 
-```
+```sh
+# When using a remote image
 docker pull qolors/feedcord:latest
-```
-Be sure to update the volume path to your `appsettings.json` 
-```
+
+# Be sure to update the volume path to your `appsettings.json` 
 docker run --name FeedCord -v "/path/to/your/appsettings.json:/app/config/appsettings.json" qolors/feedcord:latest
+```
+
+```sh
+# Build and run a local dockerfile (e.g., if you make changes to the source code)
+docker build -t feedcord ./FeedCord && \
+docker run --rm -v "./appsettings.json:/app/config/appsettings.json" feedcord
 ```
 
 ### Build From Source
