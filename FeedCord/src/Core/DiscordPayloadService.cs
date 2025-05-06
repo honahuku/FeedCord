@@ -111,16 +111,7 @@ namespace FeedCord.Core
         private StringContent GenerateMarkdown(Post post)
         {
             var markdownPost = $"""
-                                # {post.Title}
-
-                                > **Published**: {post.PublishDate:MMMM dd, yyyy}  
-                                > **Author**: {post.Author}  
-                                > **Feed**: {post.Tag}
-
-                                {post.Description}
-
-                                [Source]({post.Link})
-
+                                {post.Link}
                                 """;
             object? payload = null;
             
