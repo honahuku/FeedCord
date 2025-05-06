@@ -1,0 +1,25 @@
+# /etc/systemd/system/feedcord.service
+[Unit]
+Description=Run FeedCord container in background
+After=network.target docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+User=honahuku
+WorkingDirectory=/home/honahuku/git/honahuku/FeedCord
+
+ExecStartPre=/usr/bin/docker rm -f feedcord || true
+ExecStartPre=/usr/bin/docker build -t feedcord ./FeedCord
+
+ExecStart=/usr/bin/docker run --rm --name feedcord \
+  -v ./appsettings.json:/app/config/appsettings.json \
+  feedcord
+
+ExecStop=/usr/bin/docker stop feedcord
+
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
