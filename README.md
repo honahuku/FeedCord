@@ -127,6 +127,9 @@ docker run --name FeedCord -v "/path/to/your/appsettings.json:/app/config/appset
 # Build and run a local dockerfile (e.g., if you make changes to the source code)
 docker build -t feedcord ./FeedCord && \
 docker run --rm -v "./appsettings.json:/app/config/appsettings.json" feedcord
+
+# check container log
+docker logs feedcord
 ```
 
 ### Build From Source
