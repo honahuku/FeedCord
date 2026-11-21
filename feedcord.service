@@ -1,0 +1,26 @@
+[Unit]
+Description=FeedCord RSS reader
+Wants=network-online.target
+After=network-online.target docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/honahuku/git/honahuku/FeedCord
+
+ExecStartPre=-/usr/bin/docker rm --force feedcord
+ExecStartPre=/usr/bin/docker build --network host --tag feedcord:local /home/honahuku/git/honahuku/FeedCord/FeedCord
+
+ExecStart=/usr/bin/docker run --init --rm --name feedcord \
+  --mount type=bind,source=/home/honahuku/git/honahuku/FeedCord/appsettings.json,target=/app/config/appsettings.json,readonly \
+  --mount type=bind,source=/var/lib/feedcord/feed_dump.csv,target=/app/feed_dump.csv \
+  feedcord:local
+
+ExecStop=/usr/bin/docker stop --time 30 feedcord
+
+TimeoutStopSec=45s
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
